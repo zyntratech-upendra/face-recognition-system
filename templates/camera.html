@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Laptop Camera Attendance</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f4f6;
+        }
+        .container {
+            max-width: 500px;
+            margin: 40px auto;
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        img {
+            width: 100%;
+            border-radius: 10px;
+            border: 2px solid #2563eb;
+        }
+        button {
+            margin-top: 20px;
+            padding: 12px 30px;
+            font-size: 16px;
+            border: none;
+            background: #2563eb;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #1e40af;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>💻 Laptop Camera Attendance</h2>
+
+    <img id="video" src="/video">
+
+    <br>
+
+    <button onclick="submitAttendance()">Submit Attendance</button>
+</div>
+
+<script>
+function submitAttendance() {
+    // 1️⃣ STOP THE STREAM
+    document.getElementById("video").src = "";
+
+    // 2️⃣ CALL BACKEND USING FETCH
+    fetch("/submit-attendance")
+        .then(() => {
+            // 3️⃣ REDIRECT MANUALLY
+            window.location.href = "/after-attendance";
+        })
+        .catch(() => {
+            alert("Server error. Try again.");
+        });
+}
+</script>
+
+</body>
+</html>

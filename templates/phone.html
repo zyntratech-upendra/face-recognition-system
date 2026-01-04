@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Phone Attendance</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/static/style.css">
+
+    <style>
+        .phone-container {
+            max-width: 420px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .phone-container h2 {
+            margin-bottom: 15px;
+        }
+
+        .phone-container input[type=file] {
+            margin: 15px 0;
+        }
+
+        .status {
+            margin-top: 15px;
+            font-weight: bold;
+            color: #2563eb;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="phone-container">
+    <h2>📱 Phone Attendance</h2>
+
+    <p>Capture your photo and submit attendance</p>
+
+    <input type="file"
+           id="photo"
+           accept="image/*"
+           capture="camera">
+
+    <br><br>
+
+    <button onclick="sendPhoto()">Submit Attendance</button>
+
+    <div id="status" class="status"></div>
+</div>
+
+<script>
+function sendPhoto() {
+    let fileInput = document.getElementById("photo");
+    let statusDiv = document.getElementById("status");
+
+    if (fileInput.files.length === 0) {
+        alert("Please capture a photo first.");
+        return;
+    }
+
+    statusDiv.innerText = "⏳ Processing attendance...";
+
+    let file = fileInput.files[0];
+    let reader = new FileReader();
+
+    reader.onload = function () {
+        fetch("/submit-photo", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ image: reader.result })
+        })
+        .then(response => response.json())
+        .then(data => {
+
+            if (data.status === "matched") {
+                statusDiv.innerText = "✅ Attendance marked successfully!";
+                setTimeout(() => {
+                    window.location.href = "/after-attendance";
+                }, 1200);
+            }
+
+            else if (data.status === "mismatch") {
+                statusDiv.innerText = "";
+                alert("❌ Face does not match logged-in user.\nAttendance not marked.");
+            }
+
+            else if (data.status === "unknown") {
+                statusDiv.innerText = "";
+                alert("❌ No matching face found.\nPlease try again or contact admin.");
+            }
+
+            else if (data.status === "no_face") {
+                statusDiv.innerText = "";
+                alert("❌ No face detected.\nPlease retake the photo.");
+            }
+
+            else {
+                statusDiv.innerText = "";
+                alert("❌ Something went wrong. Try again.");
+            }
+        })
+        .catch(err => {
+            statusDiv.innerText = "";
+            alert("❌ Server error. Please try again.");
+        });
+    };
+
+    reader.readAsDataURL(file);
+}
+</script>
+
+</body>
+</html>

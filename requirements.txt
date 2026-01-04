@@ -1,0 +1,20 @@
+# Core numerical library (MUST be < 2.0)
+numpy==1.24.4
+
+# C++ based face recognition backend
+dlib>=19.24.0
+
+# Face recognition models (required, GitHub source)
+git+https://github.com/ageitgey/face_recognition_models
+
+# Face recognition library
+face-recognition==1.3.0
+
+# Computer vision (camera, drawing boxes)
+opencv-python
+
+# Image handling
+Pillow
+
+# Web framework
+flask

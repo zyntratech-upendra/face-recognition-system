@@ -1,0 +1,8 @@
+body{font-family:Segoe UI;background:#f4f6f9}
+.container,.card{background:#fff;padding:20px;margin:30px auto;width:90%;max-width:800px;border-radius:8px}
+button{padding:8px 15px;background:#2563eb;color:#fff;border:none;border-radius:5px}
+table{width:100%;border-collapse:collapse;margin-top:10px}
+th,td{padding:8px;border-bottom:1px solid #ccc}
+th{background:#2563eb;color:#fff}
+input{padding:8px;width:100%;margin:5px 0}
+.alert{color:red}

@@ -1,0 +1,19 @@
+<meta http-equiv="refresh" content="5">
+
+<!DOCTYPE html>
+<html>
+<head><link rel="stylesheet" href="/static/style.css"></head>
+<body>
+<div class="container">
+<h2>{{ name }} Attendance</h2>
+<table>
+<tr><th>Date</th><th>Time</th><th>Mode</th></tr>
+{% for r in records %}
+<tr><td>{{r.date}}</td><td>{{r.time}}</td><td>{{r.mode}}</td></tr>
+{% endfor %}
+</table>
+<a href="/take-attendance"><button>Laptop</button></a>
+<a href="/phone-attendance"><button>Phone</button></a>
+</div>
+</body>
+</html>

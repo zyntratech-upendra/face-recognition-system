@@ -1,0 +1,42 @@
+<meta http-equiv="refresh" content="5">
+
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="container">
+<h2>Admin Dashboard</h2>
+
+<form action="/admin/upload" method="post" enctype="multipart/form-data">
+<input type="file" name="images" multiple>
+<button>Upload & Update Faces</button>
+</form>
+
+<input type="text" id="search" placeholder="Search name" onkeyup="filter()">
+
+<table id="tbl">
+<tr><th>Name</th><th>Count</th><th>View</th></tr>
+{% for k,v in summary.items() %}
+<tr>
+<td>{{k}}</td><td>{{v}}</td>
+<td><a href="/attendance/{{k}}"><button>View</button></a></td>
+</tr>
+{% endfor %}
+</table>
+
+<a href="/take-attendance"><button>Laptop Attendance</button></a>
+<a href="/phone-attendance"><button>Phone Attendance</button></a>
+</div>
+
+<script>
+function filter(){
+let q=document.getElementById("search").value.toLowerCase();
+document.querySelectorAll("#tbl tr").forEach((r,i)=>{
+if(i>0) r.style.display=r.innerText.toLowerCase().includes(q)?"":"none";
+});
+}
+</script>
+</body>
+</html>
